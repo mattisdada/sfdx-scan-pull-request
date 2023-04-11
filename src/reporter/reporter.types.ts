@@ -56,11 +56,20 @@ export type GithubComment = {
   body: string;
   url?: string;
 };
+
 export type GithubExistingComment = GithubComment & {
   user: {
     type: "Bot" | "User";
   };
   id?: string;
+};
+
+export type GithubCommitComment = {
+  commit_sha: string;
+  body: string;
+  path: string;
+  position?: number;
+  line?: number;
 };
 
 export type ReporterProps = {

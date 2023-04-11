@@ -4,7 +4,7 @@ export type PluginInputs = {
   severityThreshold: number;
   strictlyEnforcedRules: string;
   deleteResolvedComments: boolean;
-  reportMode: string | "comments" | "check-runs";
+  reportMode: string | "comments" | "check-runs" | "commit-comments";
   target: string;
 };
 

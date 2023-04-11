@@ -26,6 +26,7 @@ import { PluginInputs } from "./common";
 import { CommentsReporter } from "./reporter/comments-reporter";
 import { AnnotationsReporter } from "./reporter/annoations-reporter";
 import { Reporter } from "./reporter/reporter.types";
+import { CommitCommentsReporter } from "./reporter/commit-comments-reporter";
 
 /**
  * @description Collects and verifies the inputs from the action context and metadata
@@ -56,14 +57,25 @@ function initialSetup() {
     context,
   };
 
+  let reporter: Reporter;
+  switch (inputs.reportMode) {
+    case "comments":
+      reporter = new CommentsReporter(reporterParams);
+      break;
+    case "commit-comments":
+      reporter = new CommitCommentsReporter(reporterParams);
+      break;
+    case "check-runs":
+    default:
+      reporter = new AnnotationsReporter(reporterParams);
+      break;
+  }
+
   return {
     inputs,
     pullRequest: context?.payload?.pull_request,
     scannerFlags,
-    reporter:
-      inputs.reportMode === "comments"
-        ? new CommentsReporter(reporterParams)
-        : new AnnotationsReporter(reporterParams),
+    reporter,
   };
 }
 
